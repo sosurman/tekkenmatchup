@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/bootstrap.css') }}">
+</head>
+<body>
+    <nav class="d-flex justify-content-around align-items-center bg-dark">
+        <div class="text-warning">
+            <h1>Tekken Time</h1>
+        </div>
+        <h4 class="text-center text-warning">Welcome {{user.first_name}}!</h4>
+            <div class="d-flex justify-content-around btn-group-vertical">
+            <div class="d-flex align-items-center justify-content-around">
+                <a href="/new/matchup" class="btn btn-primary">Create a New Punish</a>
+                <hr>
+                <a href="/logout" class="btn btn-info">Logout</a>
+            </div>
+        </div>    
+    </nav>
+    <div class="col-12 p-8 my-4 bg-dark text-light mx-auto">
+        <img src="/static/img/tekkenbanner.jpg" style="width: 100%; height: 50%; margin-top: -10px;" alt="">
+        <h1 class="d-flex justify-content-center p-5 text-danger">Tekken 7 Community Punish List</h1>
+        <table class="table table-hover text-center">
+            <tbody>
+                <tr class="text-success">
+                    <th>Character</th>
+                    <th>Opponent</th>
+                    <th>Opponent's Move</th>
+                    <th>Frames</th>
+                    <th>Your Punish</th>
+                    <th>Submitted by</th>
+                    <th></th>
+                </tr>
+                {% for matchup in matchups %}
+                    <tr class="font-weight-bold">
+                        <td class="text-uppercase">{{matchup.userchar}}</td>
+                        <td class="text-uppercase">{{matchup.opponent}}</td>
+                        <td class="text-uppercase">{{matchup.move}}</td>
+                        <td class="text-uppercase">{{matchup.num_of_frames}}f</td>
+                        <td class="text-uppercase">{{matchup.punish}}</td>
+                            <td class="text-uppercase">{{matchup.first_name}} {{matchup.last_name}}</td>
+                        <td>
+                            <button class="btn"><a href="/matchup/{{matchup.id}}">View Matchup</a></button>
+                            {% if matchup.user_id == session.user_id %}
+                            <button class="btn"><a href="/edit/matchup/{{matchup.id}}">Edit</a></button>
+                            <button class="btn"><a href="/destroy/matchup/{{matchup.id}}">Delete</a></button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

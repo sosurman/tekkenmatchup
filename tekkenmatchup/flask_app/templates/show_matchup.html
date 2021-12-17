@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move Match Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/bootstrap.css') }}">
+</head>
+<body>
+    <nav class="d-flex justify-content-around align-items-center bg-dark">
+        <div class="text-warning">
+            <h1>Tekken Time</h1>
+        </div>
+        <h4 class="text-center text-warning">Welcome {{user.first_name}}!</h4>
+            <div class="d-flex btn-group-vertical">
+                <div class="d-flex align-items-center justify-content-around">
+                <a href="/dashboard" class="btn btn-primary">Dashboard</a>
+                <a href="/logout" class="btn btn-info">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="card col-6 mx-auto my-5 bg-dark text-light font-weight-bold">
+        <img src="/static/img/tekkenbanner.jpg" style="width: 100%; height: 50%; margin-top: -10px;" alt="">
+        <h1 class="my-5 card-title text-primary d-flex justify-content-center">{{matchup.userchar}} vs. {{matchup.opponent}}'s {{matchup.move}}</h1>
+        <div class="d-flex justify-content-around">
+            <div class="card-body d-flex justify-content-start">
+                <div class="btn-group-vertical">
+                    {% for matchup in matchups %}
+                        {% if matchup.move == "u/f4" %}
+                                <button class="btn"><a href="https://gfycat.com/ReliableThankfulCuttlefish.gif">See {{matchup.move}}</a></button>
+                        {% endif %}
+                    {% endfor %}
+                    <div>
+                        <p class="card-text">{{matchup.opponent}}'s move: {{matchup.move}}</p>
+                    </div>
+                    <div>
+                        <p class="card-text">Frame data: {{matchup.num_of_frames}}</p>
+                    </div>
+                    <br>
+                    <div>
+                        <p class="card-text">{{matchup.userchar}}'s punish: {{matchup.punish}}</p>
+                    </div>
+                    <br>
+                    <div>
+                        <p class="card-text">Submitted by: {{report.first_name}} {{report.last_name}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</body>
+</html>
