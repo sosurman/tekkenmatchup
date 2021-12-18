@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Friends</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/bootstrap.css') }}">
+</head>
+<body>
+    <nav class="d-flex justify-content-around align-items-center bg-dark">
+        <div class="text-warning">
+            <h1>Tekken Time</h1>
+        </div>
+        <h4 class="text-center text-warning">Welcome {{user.first_name}}!</h4>
+            <div class="d-flex btn-group-vertical">
+                <div class="d-flex align-items-center justify-content-around">
+                <a href="/new/matchup" class="btn btn-primary">Create a New Punish</a>
+                <a href="/dashboard" class="btn btn-primary">Dashboard</a>
+                <a href="/logout" class="btn btn-info">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="col-6 p-4 my-4 bg-dark text-light mx-auto d-flex justify-content-around p-8">
+        <div class="text-warning">
+            <div>
+                <h5>Friend's List</h5>
+            </div>
+            <div>
+                <ol>
+                    {% for f in friend_id %}
+                        {% for u in users%}
+                            {% if f.friend_id == u.id%}
+                                <li>{{u.first_name}}</li>  
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    <div>
+        <form action="/friends/add" method="post">
+            <h2 class="text-success d-flex justify-content-center">Add a Friend</h2>
+            {% with messages = get_flashed_messages(category_filter=['matchup']) %}
+                {% if messages %}
+                <div class="alert alert-danger" role="alert">
+                        {% for message in messages %}
+                        <p>{{message}}</p>
+                        {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+            <div class="d-flex justify-content-around">
+                <div>
+                    <div class="form-group">
+                        <label for="opponent">Friends</label>
+                        <select name="friend" id="friend">
+                            {% for u in users %}
+                                {% if u.id != user.id %}  
+                                    <option value= "{{u.id}}">{{ u.first_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                        <input type="submit" value="Add Friend" class="btn btn-success">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>  
+</body>
+</html>
